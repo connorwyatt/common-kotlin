@@ -1,6 +1,7 @@
 rootProject.name = "common"
 include(":eventstore")
 include(":eventstore:kodein")
+include(":eventstore:kodein:ktor")
 include(":time")
 include(":time:kodein")
 
@@ -37,11 +38,13 @@ dependencyResolutionManagement {
         val kotlinVersion: String by settings
         val kotlinxCoroutinesVersion: String by settings
         val kotlinxSerializationVersion: String by settings
+        val ktorVersion: String by settings
         val striktVersion: String by settings
 
         create("libraries") {
             library("eventStore-client", "com.eventstore", "db-client-java").version(eventStoreClientVersion)
             library("kodein-di", "org.kodein.di", "kodein-di").version(kodeinVersion)
+            library("kodein-di-framework-ktor-server", "org.kodein.di", "kodein-di-framework-ktor-server-jvm").version(kodeinVersion)
             library("kotlin-reflect", "org.jetbrains.kotlin", "kotlin-reflect").version(
                 kotlinVersion
             )
@@ -51,6 +54,7 @@ dependencyResolutionManagement {
             library("kotlinx-serialization-json", "org.jetbrains.kotlinx", "kotlinx-serialization-json").version(
                 kotlinxSerializationVersion
             )
+            library("ktor-server-core", "io.ktor", "ktor-server-core").version(ktorVersion)
         }
 
         create("testingLibraries") {
