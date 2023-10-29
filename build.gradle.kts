@@ -36,14 +36,32 @@ tasks {
     }
 }
 
+allprojects {
+    apply(plugin = "pl.allegro.tech.build.axion-release")
+
+    scmVersion {
+        useHighestVersion.set(true)
+        tag {
+            prefix.set("")
+            initialVersion { _, _ -> "1.0.0" }
+        }
+        versionCreator { versionFromTag, position ->
+            if (position.branch == "main")
+                versionFromTag
+            else
+                "${position.branch}-${position.shortRevision}"
+        }
+        localOnly = true
+    }
+
+    project.group = "io.connorwyatt.common"
+    project.version = scmVersion.version
+}
+
 subprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "pl.allegro.tech.build.axion-release")
-
-    project.group = "io.connorwyatt.common"
-    project.version = scmVersion.version
 
     spotless {
         kotlin {
