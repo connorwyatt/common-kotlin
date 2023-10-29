@@ -5,6 +5,7 @@ include(":time")
 include(":time:kodein")
 
 pluginManagement {
+    val axionReleaseVersion: String by settings
     val kotlinVersion: String by settings
     val spotlessVersion: String by settings
 
@@ -16,6 +17,7 @@ pluginManagement {
         id("com.diffplug.spotless") version spotlessVersion
         id("org.jetbrains.kotlin.jvm") version kotlinVersion
         id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
+        id("pl.allegro.tech.build.axion-release") version axionReleaseVersion
     }
 }
 

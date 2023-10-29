@@ -2,6 +2,21 @@ plugins {
     id("com.diffplug.spotless")
     id("org.jetbrains.kotlin.jvm") apply false
     id("org.jetbrains.kotlin.plugin.serialization") apply false
+    id("pl.allegro.tech.build.axion-release")
+}
+
+scmVersion {
+    useHighestVersion.set(true)
+    tag {
+        prefix.set("")
+        initialVersion { _, _ -> "1.0.0" }
+    }
+    versionCreator { versionFromTag, position ->
+        if (position.branch == "main")
+            versionFromTag
+        else
+            "${position.branch}-${position.shortRevision}"
+    }
 }
 
 tasks {
@@ -24,6 +39,9 @@ tasks {
 subprojects {
     apply(plugin = "com.diffplug.spotless")
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "pl.allegro.tech.build.axion-release")
+
+    project.version = scmVersion.version
 
     spotless {
         kotlin {
