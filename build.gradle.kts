@@ -38,9 +38,11 @@ tasks {
 
 subprojects {
     apply(plugin = "com.diffplug.spotless")
+    apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "pl.allegro.tech.build.axion-release")
 
+    project.group = "io.connorwyatt.common"
     project.version = scmVersion.version
 
     spotless {
