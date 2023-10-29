@@ -1,0 +1,16 @@
+#!/bin/sh
+
+git stash -q --keep-index
+
+./gradlew check
+
+status=$?
+
+if [ $status != 0 ]; then
+        echo "Gradle check returned non-zero: $status, abort commit"
+        exit $status
+fi
+
+git stash pop -q
+
+exit 0
