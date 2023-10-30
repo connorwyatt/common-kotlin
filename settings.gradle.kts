@@ -1,4 +1,6 @@
 rootProject.name = "common"
+
+include(":configuration")
 include(":eventstore")
 include(":eventstore:kodein")
 include(":eventstore:kodein:ktor")
@@ -33,6 +35,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         val eventStoreClientVersion: String by settings
+        val hopliteVersion: String by settings
         val jUnitVersion: String by settings
         val kodeinVersion: String by settings
         val kotlinVersion: String by settings
@@ -43,6 +46,8 @@ dependencyResolutionManagement {
 
         create("libraries") {
             library("eventStore-client", "com.eventstore", "db-client-java").version(eventStoreClientVersion)
+            library("hoplite-core","com.sksamuel.hoplite","hoplite-core").version(hopliteVersion)
+            library("hoplite-json","com.sksamuel.hoplite","hoplite-json").version(hopliteVersion)
             library("kodein-di", "org.kodein.di", "kodein-di").version(kodeinVersion)
             library("kodein-di-framework-ktor-server", "org.kodein.di", "kodein-di-framework-ktor-server-jvm").version(kodeinVersion)
             library("kotlin-reflect", "org.jetbrains.kotlin", "kotlin-reflect").version(
