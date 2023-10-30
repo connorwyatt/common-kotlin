@@ -4,6 +4,7 @@ include(":configuration")
 include(":eventstore")
 include(":eventstore:kodein")
 include(":eventstore:kodein:ktor")
+include(":optional")
 include(":time")
 include(":time:kodein")
 
