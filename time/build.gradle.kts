@@ -1,4 +1,8 @@
+plugins { id("org.jetbrains.kotlin.plugin.serialization") }
+
 dependencies {
+    implementation(libraries.kotlinx.serialization.json)
+
     testImplementation(testingLibraries.jUnit.jupiter)
     testImplementation(testingLibraries.strikt.core)
 
