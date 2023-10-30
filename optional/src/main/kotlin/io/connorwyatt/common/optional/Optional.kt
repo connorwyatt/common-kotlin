@@ -8,7 +8,7 @@ import kotlinx.serialization.*
  *
  * Useful for representing `undefined` in JSON.
  *
- * @param T The type of the value.
+ * @param <T> The type of the value.
  */
 @Serializable(with = OptionalSerializer::class)
 sealed interface Optional<out T> {
