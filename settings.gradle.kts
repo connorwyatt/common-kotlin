@@ -60,6 +60,7 @@ dependencyResolutionManagement {
         create("testingLibraries") {
             library("jUnit-jupiter", "org.junit.jupiter", "junit-jupiter").version(jUnitVersion)
             library("jUnit-jupiter-engine", "org.junit.jupiter", "junit-jupiter-engine").version(jUnitVersion)
+            library("jUnit-jupiter-params", "org.junit.jupiter", "junit-jupiter-params").version(jUnitVersion)
             library("strikt.core", "io.strikt", "strikt-core").version(striktVersion)
         }
     }

@@ -9,6 +9,7 @@ dependencies {
     implementation(libraries.kotlinx.serialization.json)
 
     testImplementation(testingLibraries.jUnit.jupiter)
+    testImplementation(testingLibraries.jUnit.jupiter.params)
     testImplementation(testingLibraries.strikt.core)
 
     testRuntimeOnly(testingLibraries.jUnit.jupiter.engine)
