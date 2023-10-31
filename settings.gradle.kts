@@ -4,6 +4,8 @@ include(":configuration")
 include(":eventstore")
 include(":eventstore:kodein")
 include(":eventstore:kodein:ktor")
+include(":http")
+include(":http:kodein")
 include(":optional")
 include(":time")
 include(":time:kodein")
@@ -60,6 +62,8 @@ dependencyResolutionManagement {
             library("kotlinx-serialization-json", "org.jetbrains.kotlinx", "kotlinx-serialization-json").version(
                 kotlinxSerializationVersion
             )
+            library("ktor-client-cio", "io.ktor", "ktor-client-cio").version(ktorVersion)
+            library("ktor-client-core", "io.ktor", "ktor-client-core").version(ktorVersion)
             library("ktor-server-core", "io.ktor", "ktor-server-core").version(ktorVersion)
         }
 
