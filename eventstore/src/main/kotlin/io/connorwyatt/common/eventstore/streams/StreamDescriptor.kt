@@ -79,17 +79,19 @@ abstract class StreamDescriptor {
             get() = StreamConstants.allStreamName
     }
 
-    data class EventType(val versionedEventType: VersionedEventType) : StreamDescriptor() {
+    data class EventType internal constructor(val versionedEventType: VersionedEventType) :
+        StreamDescriptor() {
         override val streamName: String
             get() = "${StreamConstants.eventTypeStreamNamePrefix}-$versionedEventType"
     }
 
-    data class Category(val category: String) : StreamDescriptor() {
+    data class Category internal constructor(val category: String) : StreamDescriptor() {
         override val streamName: String
             get() = "${StreamConstants.categoryStreamNamePrefix}-$category"
     }
 
-    data class Origin(val category: String, val id: String) : StreamDescriptor() {
+    data class Origin internal constructor(val category: String, val id: String) :
+        StreamDescriptor() {
         override val streamName: String
             get() = "$category-$id"
     }
