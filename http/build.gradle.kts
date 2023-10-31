@@ -1,4 +1,9 @@
-dependencies { implementation(libraries.ktor.client.core) }
+plugins { id("org.jetbrains.kotlin.plugin.serialization") }
+
+dependencies {
+    implementation(libraries.kotlinx.serialization.json)
+    implementation(libraries.ktor.client.core)
+}
 
 publishing {
     publications {
