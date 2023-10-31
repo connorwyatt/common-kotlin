@@ -2,14 +2,10 @@ rootProject.name = "common"
 
 include(":configuration")
 include(":eventstore")
-include(":eventstore:kodein")
-include(":eventstore:kodein:ktor")
 include(":http")
-include(":http:kodein")
 include(":optional")
 include(":rabbitmq")
 include(":time")
-include(":time:kodein")
 
 pluginManagement {
     val axionReleaseVersion: String by settings
