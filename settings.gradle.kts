@@ -8,6 +8,7 @@ include(":http")
 include(":mongodb")
 include(":optional")
 include(":rabbitmq")
+include(":server")
 include(":time")
 
 pluginManagement {
@@ -66,7 +67,18 @@ dependencyResolutionManagement {
             )
             library("ktor-client-cio", "io.ktor", "ktor-client-cio").version(ktorVersion)
             library("ktor-client-core", "io.ktor", "ktor-client-core").version(ktorVersion)
+            library("ktor-serialization-kotlinx-json", "io.ktor", "ktor-serialization-kotlinx-json").version(
+                ktorVersion
+            )
+            library("ktor-server-callId","io.ktor", "ktor-server-call-id").version(ktorVersion)
+            library("ktor-server-callLogging","io.ktor", "ktor-server-call-logging").version(ktorVersion)
+            library("ktor-server-contentNegotiation", "io.ktor", "ktor-server-content-negotiation").version(
+                ktorVersion
+            )
             library("ktor-server-core", "io.ktor", "ktor-server-core").version(ktorVersion)
+            library("ktor-server-netty", "io.ktor", "ktor-server-netty").version(ktorVersion)
+            library("ktor-server-requestValidation", "io.ktor","ktor-server-request-validation").version(ktorVersion)
+            library("ktor-server-statusPages", "io.ktor","ktor-server-status-pages").version(ktorVersion)
             library("mongoDB-driver", "org.mongodb", "mongodb-driver-kotlin-coroutine").version(mongoDBDriverVersion)
             library("rabbitMQ-client", "com.rabbitmq", "amqp-client").version(
                 rabbitMQClientVersion
