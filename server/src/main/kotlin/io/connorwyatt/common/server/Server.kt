@@ -119,38 +119,46 @@ internal constructor(
         private var configureStatusPages: (StatusPagesConfig.() -> Unit)? = null
         private var configureRouting: (Routing.() -> Unit)? = null
 
-        fun port(port: Int) {
+        fun port(port: Int): Builder {
             this.port = port
+            return this
         }
 
-        fun addDIModule(diModule: DI.Module) {
+        fun addDIModule(diModule: DI.Module): Builder {
             diModules = diModules.plus(diModule)
+            return this
         }
 
-        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
+        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration): Builder {
             this.eventStoreConfiguration = eventStoreConfiguration
+            return this
         }
 
-        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
+        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration): Builder {
             this.mongoDBConfiguration = mongoDBConfiguration
+            return this
         }
 
-        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
+        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration): Builder {
             this.rabbitMQConfiguration = rabbitMQConfiguration
+            return this
         }
 
         fun configureRequestValidation(
             configureRequestValidation: RequestValidationConfig.() -> Unit
-        ) {
+        ): Builder {
             this.configureRequestValidation = configureRequestValidation
+            return this
         }
 
-        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit) {
+        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit): Builder {
             this.configureStatusPages = configureStatusPages
+            return this
         }
 
-        fun configureRouting(configureRouting: Routing.() -> Unit) {
+        fun configureRouting(configureRouting: Routing.() -> Unit): Builder {
             this.configureRouting = configureRouting
+            return this
         }
 
         fun build(): Server {
