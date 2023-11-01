@@ -48,8 +48,8 @@ internal constructor(
                         rabbitMQConfiguration?.let { import(rabbitMQDependenciesModule(it)) }
                         importAll(diModules)
                     }
-                    eventStoreConfiguration?.let { configureEventStore(it) }
                     mongoDBConfiguration?.let { configureMongoDB() }
+                    eventStoreConfiguration?.let { configureEventStore(it) }
                     rabbitMQConfiguration?.let { configureRabbitMQ(it) }
                     configureSerialization(this@embeddedServer)
                     configureRequestValidation(this@embeddedServer)
