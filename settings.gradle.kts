@@ -2,7 +2,9 @@ rootProject.name = "common"
 
 include(":configuration")
 include(":eventstore")
+include(":eventstore:mongodb-models")
 include(":http")
+include(":mongodb")
 include(":optional")
 include(":rabbitmq")
 include(":time")
@@ -42,6 +44,7 @@ dependencyResolutionManagement {
         val kotlinxCoroutinesVersion: String by settings
         val kotlinxSerializationVersion: String by settings
         val ktorVersion: String by settings
+        val mongoDBDriverVersion: String by settings
         val rabbitMQClientVersion: String by settings
         val striktVersion: String by settings
 
@@ -63,6 +66,7 @@ dependencyResolutionManagement {
             library("ktor-client-cio", "io.ktor", "ktor-client-cio").version(ktorVersion)
             library("ktor-client-core", "io.ktor", "ktor-client-core").version(ktorVersion)
             library("ktor-server-core", "io.ktor", "ktor-server-core").version(ktorVersion)
+            library("mongoDB-driver", "org.mongodb", "mongodb-driver-kotlin-coroutine").version(mongoDBDriverVersion)
             library("rabbitMQ-client", "com.rabbitmq", "amqp-client").version(
                 rabbitMQClientVersion
             )
