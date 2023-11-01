@@ -1,5 +1,6 @@
-package io.connorwyatt.common.eventstore
+package io.connorwyatt.common.eventstore.ktor
 
+import io.connorwyatt.common.eventstore.configuration.EventStoreConfiguration
 import io.connorwyatt.common.eventstore.eventhandlers.EventStoreSubscriptionsManager
 import io.connorwyatt.common.eventstore.events.EventsRepository
 import io.connorwyatt.common.eventstore.events.InMemoryEventsRepository

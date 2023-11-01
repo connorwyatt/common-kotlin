@@ -1,6 +1,8 @@
-package io.connorwyatt.common.rabbitmq
+package io.connorwyatt.common.rabbitmq.kodein
 
 import com.rabbitmq.client.ConnectionFactory
+import io.connorwyatt.common.rabbitmq.CommandMap
+import io.connorwyatt.common.rabbitmq.CommandMapDefinition
 import io.connorwyatt.common.rabbitmq.bus.CommandBus
 import io.connorwyatt.common.rabbitmq.bus.InMemoryCommandBus
 import io.connorwyatt.common.rabbitmq.bus.RabbitMQCommandBus
@@ -8,6 +10,7 @@ import io.connorwyatt.common.rabbitmq.commandhandlers.CommandHandlerDefinition
 import io.connorwyatt.common.rabbitmq.commandhandlers.CommandHandlerMap
 import io.connorwyatt.common.rabbitmq.commandhandlers.CommandHandlerRouter
 import io.connorwyatt.common.rabbitmq.commandhandlers.RabbitMQSubscriptionsManager
+import io.connorwyatt.common.rabbitmq.configuration.RabbitMQConfiguration
 import io.connorwyatt.common.rabbitmq.queues.CommandQueueCreator
 import io.connorwyatt.common.rabbitmq.queues.CommandQueueDefinition
 import io.connorwyatt.common.rabbitmq.queues.CommandQueueList

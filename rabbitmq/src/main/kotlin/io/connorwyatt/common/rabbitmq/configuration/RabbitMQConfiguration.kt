@@ -1,4 +1,4 @@
-package io.connorwyatt.common.rabbitmq
+package io.connorwyatt.common.rabbitmq.configuration
 
 data class RabbitMQConfiguration(
     val useInMemoryRabbitMQ: Boolean,

@@ -1,11 +1,13 @@
-package io.connorwyatt.common.eventstore
+package io.connorwyatt.common.eventstore.kodein
 
 import com.eventstore.dbclient.EventStoreDBClient
 import com.eventstore.dbclient.EventStoreDBConnectionString
+import io.connorwyatt.common.eventstore.EventStoreClientWrapper
 import io.connorwyatt.common.eventstore.aggregates.Aggregate
 import io.connorwyatt.common.eventstore.aggregates.AggregateMap
 import io.connorwyatt.common.eventstore.aggregates.AggregateMapDefinition
 import io.connorwyatt.common.eventstore.aggregates.AggregatesRepository
+import io.connorwyatt.common.eventstore.configuration.EventStoreConfiguration
 import io.connorwyatt.common.eventstore.eventhandlers.EventHandler
 import io.connorwyatt.common.eventstore.eventhandlers.EventHandlerDefinition
 import io.connorwyatt.common.eventstore.eventhandlers.EventHandlerMap

@@ -1,8 +1,9 @@
-package io.connorwyatt.common.rabbitmq
+package io.connorwyatt.common.rabbitmq.ktor
 
 import io.connorwyatt.common.rabbitmq.bus.CommandBus
 import io.connorwyatt.common.rabbitmq.bus.InMemoryCommandBus
 import io.connorwyatt.common.rabbitmq.commandhandlers.RabbitMQSubscriptionsManager
+import io.connorwyatt.common.rabbitmq.configuration.RabbitMQConfiguration
 import io.connorwyatt.common.rabbitmq.queues.CommandQueueCreator
 import io.ktor.server.application.*
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package io.connorwyatt.common.eventstore
+package io.connorwyatt.common.eventstore.configuration
 
 data class EventStoreConfiguration(
     val connectionString: String?,

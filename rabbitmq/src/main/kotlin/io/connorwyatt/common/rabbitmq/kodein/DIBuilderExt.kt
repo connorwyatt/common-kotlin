@@ -1,5 +1,7 @@
-package io.connorwyatt.common.rabbitmq
+package io.connorwyatt.common.rabbitmq.kodein
 
+import io.connorwyatt.common.rabbitmq.Command
+import io.connorwyatt.common.rabbitmq.CommandMapDefinition
 import io.connorwyatt.common.rabbitmq.commandhandlers.CommandHandler
 import io.connorwyatt.common.rabbitmq.commandhandlers.CommandHandlerDefinition
 import io.connorwyatt.common.rabbitmq.queues.CommandQueueDefinition

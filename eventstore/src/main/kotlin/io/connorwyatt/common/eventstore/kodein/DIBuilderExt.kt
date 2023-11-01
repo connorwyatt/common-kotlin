@@ -1,4 +1,4 @@
-package io.connorwyatt.common.eventstore
+package io.connorwyatt.common.eventstore.kodein
 
 import io.connorwyatt.common.eventstore.aggregates.Aggregate
 import io.connorwyatt.common.eventstore.aggregates.AggregateMapDefinition
