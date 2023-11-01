@@ -1,6 +1,7 @@
 rootProject.name = "common"
 
 include(":configuration")
+include(":data")
 include(":eventstore")
 include(":eventstore:mongodb-models")
 include(":http")
