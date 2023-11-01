@@ -119,49 +119,41 @@ internal constructor(
         private var configureStatusPages: (StatusPagesConfig.() -> Unit)? = null
         private var configureRouting: (Routing.() -> Unit)? = null
 
-        fun port(port: Int): Builder {
+        fun port(port: Int) {
             this.port = port
-            return this
         }
 
-        fun addDIModule(diModule: DI.Module): Builder {
+        fun addDIModule(diModule: DI.Module) {
             diModules = diModules.plus(diModule)
-            return this
         }
 
-        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration): Builder {
+        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
             this.eventStoreConfiguration = eventStoreConfiguration
-            return this
         }
 
-        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration): Builder {
+        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
             this.mongoDBConfiguration = mongoDBConfiguration
-            return this
         }
 
-        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration): Builder {
+        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
             this.rabbitMQConfiguration = rabbitMQConfiguration
-            return this
         }
 
         fun configureRequestValidation(
             configureRequestValidation: RequestValidationConfig.() -> Unit
-        ): Builder {
+        ) {
             this.configureRequestValidation = configureRequestValidation
-            return this
         }
 
-        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit): Builder {
+        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit) {
             this.configureStatusPages = configureStatusPages
-            return this
         }
 
-        fun configureRouting(configureRouting: Routing.() -> Unit): Builder {
+        fun configureRouting(configureRouting: Routing.() -> Unit) {
             this.configureRouting = configureRouting
-            return this
         }
 
-        fun build(): Server {
+        internal fun build(): Server {
             val port = port ?: throw Exception("Cannot build server without a port to listen on.")
 
             return Server(
@@ -178,6 +170,7 @@ internal constructor(
     }
 
     companion object {
-        fun builder() = Builder()
+        fun build(builder: Builder.() -> Unit): Server =
+            Builder().apply { builder.invoke(this) }.build()
     }
 }
