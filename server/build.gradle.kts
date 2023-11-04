@@ -4,6 +4,7 @@ dependencies {
     implementation(project(":http"))
     implementation(project(":mongodb"))
     implementation(project(":rabbitmq"))
+    implementation(project(":time"))
 
     implementation(libraries.kodein.di)
     implementation(libraries.kodein.di.framework.ktor.server)
