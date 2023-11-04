@@ -15,7 +15,7 @@ import org.kodein.di.DI
 import org.kodein.di.ktor.di
 
 class ApplicationConfiguration(block: Builder.() -> Unit) {
-    val di = DI { importAll(builder.diModules) }
+    val di by lazy { DI { importAll(builder.diModules) } }
 
     private val builder: Builder = Builder().apply(block)
 
