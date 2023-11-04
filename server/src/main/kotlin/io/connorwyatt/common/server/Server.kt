@@ -15,8 +15,8 @@ import io.connorwyatt.common.time.timeDependenciesModule
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import io.ktor.server.plugins.callid.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -93,7 +93,7 @@ class Server internal constructor(private val embeddedServer: ApplicationEngine)
             val port = port ?: throw Exception("Cannot build server without a port to listen on.")
 
             return Server(
-                embeddedServer(Netty, port = port, host = "localhost") {
+                embeddedServer(CIO, port = port, host = "localhost") {
                     runBlocking {
                         di {
                             eventStoreConfiguration?.let {
