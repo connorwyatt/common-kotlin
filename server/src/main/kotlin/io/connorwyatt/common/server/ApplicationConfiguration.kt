@@ -16,113 +16,111 @@ import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.runBlocking
-import org.kodein.di.DI
-import org.kodein.di.ktor.di
+import org.kodein.di.*
+import org.kodein.di.ktor.*
 
-class ApplicationConfiguration(block: Builder.() -> Unit) {
-    val di by lazy {
-        DI {
-            importAll(builder.diModules, allowOverride = builder.allowDIOverrides)
-            builder.configureDI?.invoke(this)
-        }
-    }
-
-    private val builder: Builder = Builder().apply(block)
-
+class ApplicationConfiguration
+internal constructor(val di: DI, private val configureApplication: Application.() -> Unit) {
     fun applyTo(application: Application) {
-        application.apply {
-            di { extend(di) }
-            builder.mongoDBConfiguration?.let { runBlocking { configureMongoDB() } }
-            builder.eventStoreConfiguration?.let { configureEventStore(it) }
-            builder.rabbitMQConfiguration?.let { configureRabbitMQ(it) }
-            configureSerialization()
-            builder.configureRequestValidation?.let { configureRequestValidation(it) }
-            configureStatusPages(builder.configureStatusPages)
-            configureCallId()
-            configureCallLogging()
-            builder.configureRouting?.let { configureRouting(it) }
-        }
+        configureApplication.invoke(application)
     }
 
-    class Builder internal constructor() {
-        internal var configureDI: (DI.MainBuilder.() -> Unit)? = null
-            private set
+    class Builder {
+        private var diModules = listOf<DI.Module>()
+        private var builderDIModules = listOf<DI.Module>()
+        private var allowDIOverrides = false
+        private var eventStoreConfiguration: EventStoreConfiguration? = null
+        private var mongoDBConfiguration: MongoDBConfiguration? = null
+        private var rabbitMQConfiguration: RabbitMQConfiguration? = null
+        private var http: Boolean = false
+        private var time: Boolean = false
+        private var configureRequestValidation: (RequestValidationConfig.() -> Unit)? = null
+        private var configureStatusPages: (StatusPagesConfig.() -> Unit)? = null
+        private var configureRouting: (Routing.() -> Unit)? = null
 
-        internal var diModules = listOf<DI.Module>()
-            private set
-
-        internal var allowDIOverrides = false
-            private set
-
-        internal var eventStoreConfiguration: EventStoreConfiguration? = null
-            private set
-
-        internal var mongoDBConfiguration: MongoDBConfiguration? = null
-            private set
-
-        internal var rabbitMQConfiguration: RabbitMQConfiguration? = null
-            private set
-
-        internal var http: Boolean = false
-            private set
-
-        internal var time: Boolean = false
-            private set
-
-        internal var configureRequestValidation: (RequestValidationConfig.() -> Unit)? = null
-            private set
-
-        internal var configureStatusPages: (StatusPagesConfig.() -> Unit)? = null
-            private set
-
-        internal var configureRouting: (Routing.() -> Unit)? = null
-            private set
-
-        fun configureDI(configureDI: DI.MainBuilder.() -> Unit) {
-            this.configureDI = configureDI
+        fun addDIModule(diModule: DI.Module): Builder {
+            this.diModules = this.diModules.plus(diModules)
+            return this
         }
 
-        fun allowDIOverrides() {
-            this.allowDIOverrides = true
+        fun addDIModules(diModules: List<DI.Module>): Builder {
+            this.diModules = this.diModules.plus(diModules)
+            return this
         }
 
-        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
+        fun allowDIOverrides(allowDIOverrides: Boolean): Builder {
+            this.allowDIOverrides = allowDIOverrides
+            return this
+        }
+
+        fun addEventStore(eventStoreConfiguration: EventStoreConfiguration): Builder {
             this.eventStoreConfiguration = eventStoreConfiguration
-            diModules = diModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
+            builderDIModules =
+                builderDIModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
+            return this
         }
 
-        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
+        fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration): Builder {
             this.mongoDBConfiguration = mongoDBConfiguration
-            diModules = diModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
+            builderDIModules =
+                builderDIModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
+            return this
         }
 
-        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
+        fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration): Builder {
             this.rabbitMQConfiguration = rabbitMQConfiguration
-            diModules = diModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
+            builderDIModules =
+                builderDIModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
+            return this
         }
 
-        fun addHttp() {
+        fun addHttp(): Builder {
             this.http = true
-            diModules = diModules.plus(httpDependenciesModule)
+            builderDIModules = builderDIModules.plus(httpDependenciesModule)
+            return this
         }
 
-        fun addTime() {
+        fun addTime(): Builder {
             this.time = true
-            diModules = diModules.plus(timeDependenciesModule)
+            builderDIModules = builderDIModules.plus(timeDependenciesModule)
+            return this
         }
 
         fun configureRequestValidation(
             configureRequestValidation: RequestValidationConfig.() -> Unit
-        ) {
+        ): Builder {
             this.configureRequestValidation = configureRequestValidation
+            return this
         }
 
-        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit) {
+        fun configureStatusPages(configureStatusPages: StatusPagesConfig.() -> Unit): Builder {
             this.configureStatusPages = configureStatusPages
+            return this
         }
 
-        fun configureRouting(configureRouting: Routing.() -> Unit) {
+        fun configureRouting(configureRouting: Routing.() -> Unit): Builder {
             this.configureRouting = configureRouting
+            return this
+        }
+
+        fun build(): ApplicationConfiguration {
+            val di = DI {
+                importAll(builderDIModules, allowOverride = allowDIOverrides)
+                importAll(diModules, allowOverride = allowDIOverrides)
+            }
+
+            return ApplicationConfiguration(di) {
+                di { extend(di, allowOverride = allowDIOverrides) }
+                mongoDBConfiguration?.let { runBlocking { configureMongoDB() } }
+                eventStoreConfiguration?.let { configureEventStore(it) }
+                rabbitMQConfiguration?.let { configureRabbitMQ(it) }
+                configureSerialization()
+                configureRequestValidation?.let { configureRequestValidation(it) }
+                configureStatusPages(configureStatusPages)
+                configureCallId()
+                configureCallLogging()
+                configureRouting?.let { configureRouting(it) }
+            }
         }
     }
 }
