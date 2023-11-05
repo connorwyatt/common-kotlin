@@ -21,7 +21,10 @@ import org.kodein.di.ktor.di
 
 class ApplicationConfiguration(block: Builder.() -> Unit) {
     val di by lazy {
-        DI { builder.configureDI?.invoke(this, builder.diModules) ?: importAll(builder.diModules) }
+        DI {
+            importAll(builder.diModules, allowOverride = builder.allowDIOverrides)
+            builder.configureDI?.invoke(this)
+        }
     }
 
     private val builder: Builder = Builder().apply(block)
@@ -42,10 +45,13 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
     }
 
     class Builder internal constructor() {
-        internal var configureDI: (DI.MainBuilder.(List<DI.Module>) -> Unit)? = null
+        internal var configureDI: (DI.MainBuilder.() -> Unit)? = null
             private set
 
         internal var diModules = listOf<DI.Module>()
+            private set
+
+        internal var allowDIOverrides = false
             private set
 
         internal var eventStoreConfiguration: EventStoreConfiguration? = null
@@ -72,8 +78,12 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
         internal var configureRouting: (Routing.() -> Unit)? = null
             private set
 
-        fun configureDI(configureDI: DI.MainBuilder.(List<DI.Module>) -> Unit) {
+        fun configureDI(configureDI: DI.MainBuilder.() -> Unit) {
             this.configureDI = configureDI
+        }
+
+        fun allowDIOverrides() {
+            this.allowDIOverrides = true
         }
 
         fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
