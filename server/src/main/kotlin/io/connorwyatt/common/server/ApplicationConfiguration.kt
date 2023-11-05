@@ -1,11 +1,16 @@
 package io.connorwyatt.common.server
 
 import io.connorwyatt.common.eventstore.configuration.EventStoreConfiguration
+import io.connorwyatt.common.eventstore.kodein.eventStoreDependenciesModule
 import io.connorwyatt.common.eventstore.ktor.configureEventStore
+import io.connorwyatt.common.http.httpDependenciesModule
 import io.connorwyatt.common.mongodb.configuration.MongoDBConfiguration
+import io.connorwyatt.common.mongodb.kodein.mongoDBDependenciesModule
 import io.connorwyatt.common.mongodb.ktor.configureMongoDB
 import io.connorwyatt.common.rabbitmq.configuration.RabbitMQConfiguration
+import io.connorwyatt.common.rabbitmq.kodein.rabbitMQDependenciesModule
 import io.connorwyatt.common.rabbitmq.ktor.configureRabbitMQ
+import io.connorwyatt.common.time.timeDependenciesModule
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
@@ -68,22 +73,27 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
 
         fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
             this.eventStoreConfiguration = eventStoreConfiguration
+            diModules = diModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
         }
 
         fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
             this.mongoDBConfiguration = mongoDBConfiguration
+            diModules = diModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
         }
 
         fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
             this.rabbitMQConfiguration = rabbitMQConfiguration
+            diModules = diModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
         }
 
         fun addHttp() {
             this.http = true
+            diModules = diModules.plus(httpDependenciesModule)
         }
 
         fun addTime() {
             this.time = true
+            diModules = diModules.plus(timeDependenciesModule)
         }
 
         fun configureRequestValidation(
