@@ -20,7 +20,12 @@ import org.kodein.di.DI
 import org.kodein.di.ktor.di
 
 class ApplicationConfiguration(block: Builder.() -> Unit) {
-    val di by lazy { DI { importAll(builder.diModules) } }
+    val di by lazy {
+        DI {
+            importAll(builder.builderDiModules)
+            importAll(builder.diModules)
+        }
+    }
 
     private val builder: Builder = Builder().apply(block)
 
@@ -41,6 +46,9 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
 
     class Builder internal constructor() {
         internal var diModules = listOf<DI.Module>()
+            private set
+
+        internal var builderDiModules = listOf<DI.Module>()
             private set
 
         internal var eventStoreConfiguration: EventStoreConfiguration? = null
@@ -73,27 +81,30 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
 
         fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
             this.eventStoreConfiguration = eventStoreConfiguration
-            diModules = diModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
+            builderDiModules =
+                builderDiModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
         }
 
         fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
             this.mongoDBConfiguration = mongoDBConfiguration
-            diModules = diModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
+            builderDiModules =
+                builderDiModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
         }
 
         fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
             this.rabbitMQConfiguration = rabbitMQConfiguration
-            diModules = diModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
+            builderDiModules =
+                builderDiModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
         }
 
         fun addHttp() {
             this.http = true
-            diModules = diModules.plus(httpDependenciesModule)
+            builderDiModules = builderDiModules.plus(httpDependenciesModule)
         }
 
         fun addTime() {
             this.time = true
-            diModules = diModules.plus(timeDependenciesModule)
+            builderDiModules = builderDiModules.plus(timeDependenciesModule)
         }
 
         fun configureRequestValidation(
