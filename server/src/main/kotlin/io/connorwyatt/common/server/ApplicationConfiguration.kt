@@ -21,10 +21,7 @@ import org.kodein.di.ktor.di
 
 class ApplicationConfiguration(block: Builder.() -> Unit) {
     val di by lazy {
-        DI {
-            importAll(builder.builderDiModules)
-            importAll(builder.diModules)
-        }
+        DI { builder.configureDI?.invoke(this, builder.diModules) ?: importAll(builder.diModules) }
     }
 
     private val builder: Builder = Builder().apply(block)
@@ -45,10 +42,10 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
     }
 
     class Builder internal constructor() {
-        internal var diModules = listOf<DI.Module>()
+        internal var configureDI: (DI.MainBuilder.(List<DI.Module>) -> Unit)? = null
             private set
 
-        internal var builderDiModules = listOf<DI.Module>()
+        internal var diModules = listOf<DI.Module>()
             private set
 
         internal var eventStoreConfiguration: EventStoreConfiguration? = null
@@ -75,36 +72,33 @@ class ApplicationConfiguration(block: Builder.() -> Unit) {
         internal var configureRouting: (Routing.() -> Unit)? = null
             private set
 
-        fun addDIModule(diModule: DI.Module) {
-            diModules = diModules.plus(diModule)
+        fun configureDI(configureDI: DI.MainBuilder.(List<DI.Module>) -> Unit) {
+            this.configureDI = configureDI
         }
 
         fun addEventStore(eventStoreConfiguration: EventStoreConfiguration) {
             this.eventStoreConfiguration = eventStoreConfiguration
-            builderDiModules =
-                builderDiModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
+            diModules = diModules.plus(eventStoreDependenciesModule(eventStoreConfiguration))
         }
 
         fun addMongoDB(mongoDBConfiguration: MongoDBConfiguration) {
             this.mongoDBConfiguration = mongoDBConfiguration
-            builderDiModules =
-                builderDiModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
+            diModules = diModules.plus(mongoDBDependenciesModule(mongoDBConfiguration))
         }
 
         fun addRabbitMQ(rabbitMQConfiguration: RabbitMQConfiguration) {
             this.rabbitMQConfiguration = rabbitMQConfiguration
-            builderDiModules =
-                builderDiModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
+            diModules = diModules.plus(rabbitMQDependenciesModule(rabbitMQConfiguration))
         }
 
         fun addHttp() {
             this.http = true
-            builderDiModules = builderDiModules.plus(httpDependenciesModule)
+            diModules = diModules.plus(httpDependenciesModule)
         }
 
         fun addTime() {
             this.time = true
-            builderDiModules = builderDiModules.plus(timeDependenciesModule)
+            diModules = diModules.plus(timeDependenciesModule)
         }
 
         fun configureRequestValidation(
