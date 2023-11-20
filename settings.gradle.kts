@@ -8,6 +8,7 @@ include(":http")
 include(":mongodb")
 include(":optional")
 include(":rabbitmq")
+include(":result")
 include(":server")
 include(":time")
 
