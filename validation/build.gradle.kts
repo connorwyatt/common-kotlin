@@ -1,0 +1,1 @@
+dependencies { implementation(projects.result) }

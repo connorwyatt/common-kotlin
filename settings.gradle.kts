@@ -13,6 +13,7 @@ include(":rabbitmq")
 include(":result")
 include(":server")
 include(":time")
+include(":validation")
 
 pluginManagement {
     val axionReleaseVersion: String by settings
