@@ -1,4 +1,4 @@
 dependencies {
-    implementation(project(":eventstore"))
-    implementation(project(":mongodb"))
+    implementation(projects.eventstore)
+    implementation(projects.mongodb)
 }

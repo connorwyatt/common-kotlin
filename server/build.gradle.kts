@@ -1,10 +1,10 @@
 dependencies {
-    implementation(project(":configuration"))
-    implementation(project(":eventstore"))
-    implementation(project(":http"))
-    implementation(project(":mongodb"))
-    implementation(project(":rabbitmq"))
-    implementation(project(":time"))
+    implementation(projects.configuration)
+    implementation(projects.eventstore)
+    implementation(projects.http)
+    implementation(projects.mongodb)
+    implementation(projects.rabbitmq)
+    implementation(projects.time)
 
     implementation(libraries.kodein.di)
     implementation(libraries.kodein.di.framework.ktor.server)

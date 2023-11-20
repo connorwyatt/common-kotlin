@@ -1,5 +1,7 @@
 rootProject.name = "common"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":configuration")
 include(":data")
 include(":eventstore")

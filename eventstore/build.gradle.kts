@@ -1,7 +1,7 @@
 plugins { id("org.jetbrains.kotlin.plugin.serialization") }
 
 dependencies {
-    implementation(project(":time"))
+    implementation(projects.time)
 
     implementation(libraries.eventStore.client)
     implementation(libraries.kodein.di)
