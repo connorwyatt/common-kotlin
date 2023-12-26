@@ -54,7 +54,7 @@ allprojects {
         localOnly = true
     }
 
-    project.group = "io.connorwyatt.common"
+    project.group = "com.github.connorwyatt.common"
     project.version = scmVersion.version
 }
 
